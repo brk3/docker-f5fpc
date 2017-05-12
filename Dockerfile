@@ -1,17 +1,15 @@
-from centos
 
-RUN curl -O -k https://72.3.241.247/public/download/linux_sslvpn.tgz \
-    && tar xf linux_sslvpn.tgz \
-    && yum -y install \
-        file \
-        iproute \
-    && yum clean all \
-    && yes "yes" | ./Install.sh
+FROM alpine:latest
 
-CMD f5fpc \
+RUN apk update && apk add bash file libc6-compat wget
+RUN mkdir -p /root/f5fpc /lib64 && ln -s /lib/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2
+RUN cd /root/f5fpc && wget --no-check-certificate https://72.3.241.247/public/download/linux_sslvpn.tgz && tar xfz linux_sslvpn.tgz && yes "yes" | ./Install.sh && rm -rf /root/f5fpc
+
+CMD /usr/local/bin/f5fpc \
         --start \
         --user ${USER} \
         --password ${PASSWORD} \
         --host ${HOST} \
         --nocheck \
     || /bin/sleep infinity
+
