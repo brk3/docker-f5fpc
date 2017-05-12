@@ -1,12 +1,9 @@
-Build
-=====
 
-```
-docker build -t f5fpc .
-```
+# F5 VPN client
 
-Run
-===
+*forked from https://github.com/brk3/docker-f5fpc*
+
+## Run from Dockerhub
 
 ```
 docker run \
@@ -17,5 +14,6 @@ docker run \
     -d \
     --privileged \
     --net=host \
-    f5fpc
+    matthiaslohr/f5fpc
 ```
+
